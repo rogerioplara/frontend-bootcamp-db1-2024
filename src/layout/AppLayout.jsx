@@ -1,4 +1,6 @@
-import { Button, Col, Layout, Menu, Popconfirm, Row } from 'antd';
+import {
+  Button, Col, Layout, Menu, Popconfirm, Row,
+} from 'antd';
 import { useCallback, useMemo } from 'react';
 import { useNavigate, matchPath, useLocation } from 'react-router-dom';
 
@@ -31,9 +33,7 @@ function AppLayout({ children }) {
     /**
      * Detecta qual a página que está aberta no momento para marcar o menu como selecionado.
      */
-    const currentRoute = MENU_ITEMS.find((item) =>
-      matchPath(item.path, location.pathname)
-    );
+    const currentRoute = MENU_ITEMS.find((item) => matchPath(item.path, location.pathname));
 
     if (!currentRoute) return [];
 
@@ -54,7 +54,7 @@ function AppLayout({ children }) {
     (item) => {
       navigate(item.key);
     },
-    [navigate]
+    [navigate],
   );
 
   return (

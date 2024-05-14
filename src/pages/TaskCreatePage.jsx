@@ -1,4 +1,6 @@
-import { Button, Col, Form, Modal, notification, Row, Space } from 'antd';
+import {
+  Button, Col, Form, Modal, notification, Row, Space,
+} from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import axios from 'axios';
 import { useEffect, useCallback, useState } from 'react';
@@ -22,18 +24,28 @@ function TaskCreatePage() {
         [name]: input,
       });
     },
-    [formValues]
+    [formValues],
   );
 
   const requestTask = useCallback(async () => {
     try {
       setLoading(true);
 
-      // TODO: implementar
+      // pega o id da task que está sendo editada na url
+      const response = await axios.get(`/tasks/${taskId}`);
+
+      // pega os valores atuais da tarefa que será editada e seta no value do campo
+      setFormValues({
+        titulo: {
+          value: response.data.title,
+          valid: true,
+        },
+      });
     } catch (error) {
       console.warn(error);
       Modal.error({
-        title: 'Não foi carregar a tarefa, tente novamente mais tarde.',
+        title:
+          'Não foi possível carregar a tarefa, tente novamente mais tarde.',
       });
     } finally {
       setLoading(false);
@@ -56,13 +68,23 @@ function TaskCreatePage() {
 
       if (!titulo?.valid) return;
 
-      await axios.post('/tasks', {
-        title: titulo.value,
-      });
-
-      notification.success({
-        message: 'Tarefa criada com sucesso!',
-      });
+      if (taskId) {
+        // editando
+        await axios.patch(`/tasks/${taskId}`, {
+          title: titulo.value,
+        });
+        notification.success({
+          message: 'Tarefa editada com sucesso!',
+        });
+      } else {
+        // cadastrando
+        await axios.post('/tasks', {
+          title: titulo.value,
+        });
+        notification.success({
+          message: 'Tarefa criada com sucesso!',
+        });
+      }
 
       navigate('/');
     } catch (error) {
