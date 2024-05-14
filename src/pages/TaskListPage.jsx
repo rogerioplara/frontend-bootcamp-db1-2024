@@ -50,11 +50,16 @@ function TaskListPage() {
     requestTasks();
   }, []);
 
-  const completeTask = async (taskId, concluida) => {
+  const completeTask = async (taskId, concluded) => {
     try {
       setLoading(true);
 
-      // TODO: implementar
+      // atualiza conforme o status da tarefa - se estiver concluída, chama o pending, se não, o concluded
+      await axios.put(
+        concluded ? `/tasks/${taskId}/concluded` : `/tasks/${taskId}/pending`
+      );
+
+      await requestTasks();
     } catch (error) {
       console.warn(error);
       Modal.error({
@@ -80,12 +85,12 @@ function TaskListPage() {
     }
   };
 
-  const renderCompletedTask = (concluida, task) => (
+  const renderCompletedTask = (concluded, task) => (
     <Button
       onClick={() => {
-        completeTask(task.id, !concluida);
+        completeTask(task.id, !concluded);
       }}
-      icon={concluida ? <CheckOutlined /> : <BorderOutlined />}
+      icon={concluded ? <CheckOutlined /> : <BorderOutlined />}
     />
   );
 
