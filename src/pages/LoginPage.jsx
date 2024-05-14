@@ -1,4 +1,6 @@
-import { Button, Card, Col, Form, Layout, Row, Typography, Modal } from 'antd';
+import {
+  Button, Card, Col, Form, Layout, Row, Typography, Modal,
+} from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
@@ -119,7 +121,8 @@ function LoginPage() {
             <br />
 
             <Typography.Text>
-              Não possui conta?{' '}
+              Não possui conta?
+              {' '}
               <Link
                 to="/subscription"
                 className="ant-btn ant-btn-link ant-btn-lg ant-btn-block"
