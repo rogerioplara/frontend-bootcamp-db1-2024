@@ -1,15 +1,15 @@
-import {
-  Button, Card,
-  Col, Form, Layout, Row,
-  Typography, Modal,
-} from 'antd';
+import { Button, Card, Col, Form, Layout, Row, Typography, Modal } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCallback, useState } from 'react';
 import axios from 'axios';
 
 import Logo from '../assets/logo-db1-group.png';
 import InputText from '../components/InputText';
-import { validateEmail, validateName, validatePassword } from '../validatiors/usuarios';
+import {
+  validateEmail,
+  validateName,
+  validatePassword,
+} from '../validatiors/usuarios';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -27,38 +27,60 @@ function SubscriptionPage() {
 
       if (!nome?.valid || !email?.valid || !senha?.valid) return;
 
-      // TODO: implementar
+      // como não será feito o login, só precisa validar se retornar 200
+      await axios.post('/users', {
+        name: nome.value,
+        email: email.value,
+        password: senha.value,
+      });
+      // 200 -> sucesso
+
+      // componente do antdesign - gera uma popup
+      Modal.success({
+        title: 'Usuário cadastrado com sucesso. Faça login para continuar.',
+      });
+
+      // redireciona
+      navigate('/login');
     } catch (error) {
+      // 400 ou 300 -> erro
       console.warn(error);
       const { response } = error;
-      // TODO: implementar tratamento de erro
+
+      if (response?.status === 412) {
+        Modal.error({
+          title: 'E-mail já cadastrado.',
+        });
+      } else {
+        Modal.error({
+          title:
+            'Não foi possível cadastrar o usuário no momento, tente novamente mais tarde.',
+        });
+      }
     } finally {
       setLoading(false);
     }
   }, [formValues, navigate]);
 
-  const handleInputChange = useCallback((event) => {
-    const { name, input } = event;
+  const handleInputChange = useCallback(
+    (event) => {
+      const { name, input } = event;
 
-    setFormValues({
-      ...formValues,
-      [name]: input,
-    });
-  }, [formValues]);
+      setFormValues({
+        ...formValues,
+        [name]: input,
+      });
+    },
+    [formValues]
+  );
 
   return (
     <Content>
-      <Row
-        justify="center"
-      >
-        <Col xs={24} sl={14} md={12} lg={10} xl={8}>
+      <Row justify="center">
+        <Col xs={24} sm={14} md={12} lg={10} xl={8}>
           <Card style={{ margin: 24 }}>
             <div style={{ textAlign: 'center' }}>
-              <img
-                src={Logo}
-                alt="Logotipo"
-                style={{ maxWidth: '80%' }}
-              />
+              <img src={Logo} alt="Logotipo" style={{ maxWidth: '80%' }} />
             </div>
 
             <Title
@@ -119,8 +141,7 @@ function SubscriptionPage() {
             <br />
 
             <Typography.Text>
-              Voltar para o
-              {' '}
+              Voltar para o{' '}
               <Link
                 to="/login"
                 className="ant-btn ant-btn-link ant-btn-lg ant-btn-block"

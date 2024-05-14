@@ -1,6 +1,4 @@
-import {
-  Button, Col, Layout, Menu, Popconfirm, Row,
-} from 'antd';
+import { Button, Col, Layout, Menu, Popconfirm, Row } from 'antd';
 import { useCallback, useMemo } from 'react';
 import { useNavigate, matchPath, useLocation } from 'react-router-dom';
 
@@ -33,28 +31,31 @@ function AppLayout({ children }) {
     /**
      * Detecta qual a página que está aberta no momento para marcar o menu como selecionado.
      */
-    const currentRoute = MENU_ITEMS.find((item) => matchPath(item.path, location.pathname));
+    const currentRoute = MENU_ITEMS.find((item) =>
+      matchPath(item.path, location.pathname)
+    );
 
     if (!currentRoute) return [];
 
     return [currentRoute.path];
   }, [location]);
 
-  const renderMenuItem = (item) => (
-    {
-      key: item.path,
-      label: item.label,
-    }
-  );
+  const renderMenuItem = (item) => ({
+    key: item.path,
+    label: item.label,
+  });
 
   const handleLogout = useCallback(() => {
     LocalStorageHelper.removeToken();
     navigate('/login');
   }, [navigate]);
 
-  const handleMenuClick = useCallback((item) => {
-    navigate(item.key);
-  }, [navigate]);
+  const handleMenuClick = useCallback(
+    (item) => {
+      navigate(item.key);
+    },
+    [navigate]
+  );
 
   return (
     <Layout className="AppLayout_layout">
@@ -94,10 +95,7 @@ function AppLayout({ children }) {
           title="Deseja sair do sistema?"
           placement="leftTop"
         >
-          <Button
-            type="text"
-            danger
-          >
+          <Button type="text" danger>
             Sair
           </Button>
         </Popconfirm>
@@ -107,9 +105,7 @@ function AppLayout({ children }) {
 
       <Footer>
         <Row justify="center">
-          <Col>
-            Bootcamp DB1 © 2023
-          </Col>
+          <Col>Bootcamp DB1 © 2024</Col>
         </Row>
       </Footer>
     </Layout>

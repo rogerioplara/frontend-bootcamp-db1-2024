@@ -1,7 +1,4 @@
-import {
-  Button,
-  Col, Form, Modal, notification, Row, Space,
-} from 'antd';
+import { Button, Col, Form, Modal, notification, Row, Space } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import axios from 'axios';
 import { useEffect, useCallback, useState } from 'react';
@@ -16,14 +13,17 @@ function TaskCreatePage() {
   const [formValues, setFormValues] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const handleInputChange = useCallback((event) => {
-    const { name, input } = event;
+  const handleInputChange = useCallback(
+    (event) => {
+      const { name, input } = event;
 
-    setFormValues({
-      ...formValues,
-      [name]: input,
-    });
-  }, [formValues]);
+      setFormValues({
+        ...formValues,
+        [name]: input,
+      });
+    },
+    [formValues]
+  );
 
   const requestTask = useCallback(async () => {
     try {
@@ -71,10 +71,8 @@ function TaskCreatePage() {
     <Content>
       <br />
       <Space direction="vertical" style={{ display: 'flex' }}>
-
         <Row justify="center">
-          <Col xs={23} sl={14} md={12} lg={10} xl={8}>
-
+          <Col xs={23} sm={14} md={12} lg={10} xl={8}>
             <Form layout="vertical">
               <InputText
                 name="titulo"
@@ -97,7 +95,6 @@ function TaskCreatePage() {
                 Salvar
               </Button>
             </Form>
-
           </Col>
         </Row>
       </Space>
