@@ -18,4 +18,8 @@
     ```
     npm run dev
     ```
-CI implementado
+
+## Links do projeto
+[Netlify](https://gerenciador-tarefas-rogerio.netlify.app/tasks)
+[Vercel](https://gerenciador-tarefas-fawn.vercel.app/)
+[Oracle](https://frontend.rogerio.douglasjunior.xyz)
